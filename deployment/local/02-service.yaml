@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: micro-vehicle-management-tool-service
+  namespace: track-vehicle-data
+  labels:
+    run: micro-vehicle-management-tool
+spec:
+  ports:
+    - port: 8090
+      protocol: TCP
+  selector:
+    app: micro-vehicle-management-tool

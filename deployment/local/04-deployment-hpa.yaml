@@ -1,0 +1,17 @@
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2beta1
+metadata:
+  name: micro-vehicle-management-tool-deployment
+  namespace: track-vehicle-data
+spec:
+  scaleTargetRef:
+    kind: DeploymentConfig
+    name: micro-vehicle-management-tool-deployment
+    apiVersion: apps.openshift.io/v1
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 15

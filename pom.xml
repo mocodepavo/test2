@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.4.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	
+	<groupId>com.seat.micro</groupId>
+	<artifactId>micro-vehicle-management-tool</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>micro-vehicle-management-tool</name>
+	<description>Vehicle Management Tool</description>
+
+    <properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+	    <dependency>
+			<groupId>com.seat.micro</groupId>
+			<artifactId>micro-chassis-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	
+    <profiles>                                                         
+	    <profile>                                                      
+	        <id>PROD</id>                                              
+	        <build>                                                    
+		        <resources>
+			         <resource>
+			            <directory>src/main/resources</directory>
+			            <filtering>true</filtering>
+			            <excludes>
+			                <exclude>**/*.yaml</exclude>
+			                <exclude>**/*.yml</exclude>
+			                <exclude>**/*.conf</exclude>
+			            </excludes>
+			        </resource>
+			    </resources>
+	        </build>                                                   
+	    </profile>
+	    
+	    <profile>                                                      
+	        <id>LOCAL</id>                                              
+	        <build>                                                    
+		        <resources>
+			         <resource>
+			            <directory>src/main/resources</directory>
+			            <filtering>true</filtering>
+			            <excludes>
+			                <exclude>**/*.xml</exclude>
+			            </excludes>
+			        </resource>
+			    </resources>
+	        </build>                                                   
+	    </profile>	                                                        
+	</profiles> 
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.7.0.1746</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+           <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+		    </plugin>
+        
+        
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+        			<mainClass>com.seat.demo.MicroVehicleManagementToolApplication</mainClass>
+      			</configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        
+        <finalName>app</finalName>
+    </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <url>
+                http://seat-nexus3-seat-ci-cd.${ENVIRONMENT_NAME}.aws.seat.cloud.vwgroup.com/repository/modularBackend-DES/
+            </url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <url>
+                http://seat-nexus3-seat-ci-cd.${ENVIRONMENT_NAME}.aws.seat.cloud.vwgroup.com/repository/modularBackend-EXP/
+            </url>
+        </repository>
+    </distributionManagement>
+
+</project>

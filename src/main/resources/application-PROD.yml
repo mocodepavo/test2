@@ -1,0 +1,76 @@
+server:
+  port: 8090
+  
+info:
+  app:
+    name: Micro Vehicle Management Tool
+    description: Application for the management of sales orders
+    version: 1.0.0
+
+spring:
+  application.name: Micro Vehicle Management Tool
+  profiles.active: PROD
+  
+  kafka:
+    bootstrap-servers:
+    - kafka-cluster-kafka-bootstrap:9092
+    consumer:
+      group-id: micro-vehicle-management-tool-group
+    command:
+      topic: micro-vehicle-management-tool-command-topic
+    query:
+      topic: micro-vehicle-management-tool-query-topic
+    response:
+      topic: micro-vehicle-management-tool-response-topic
+    event:
+      topic: micro-vehicle-management-tool-event-topic
+    error:
+      topic: micro-vehicle-management-tool-error-topic
+      
+  datasource:
+    #initialize: false
+    
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+    
+   #schema: create-db.sql
+   #data: seed-data.sql 
+    
+  #jpa:
+  #  database-platform: org.hibernate.dialect.H2Dialect
+    
+  h2.console.enabled: true
+  h2.console.path: /h2-console
+
+logging:
+  level:
+    com.seat.micro: INFO
+  file: /tmp/app.log
+    
+opentracing:
+  jaeger:
+    enabled: true
+    enable-b3-propagation: true
+    http-sender:
+     url: http://jaeger-all-in-one-inmemory-collector:14268/api/traces
+  spring:
+    web:
+      enabled: true
+
+management:
+    server:
+      port: 8090
+    endpoints:
+      jmx:
+        exposure:
+          include: "*"
+      web:
+        exposure:
+            include: "*"
+        base-path: "/api/v1/monitor"
+    
+    endpoint:
+      health:
+        show-details: ALWAYS
